@@ -1,12 +1,13 @@
 package com.example.demo.service;
 
+import com.example.demo.exception.BadRequestException;
+import com.example.demo.exception.StudentNotFoundException;
 import com.example.demo.model.Student;
 import com.example.demo.repositorry.StudentRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
@@ -18,7 +19,18 @@ public class StudentService {
     }
 
     public void addStudent(Student student) {
-        // Validations missing
+        Boolean existsEmail = studentRepository
+                .selectExistsEmail(student.getEmail());
+        if (existsEmail) {
+            throw new BadRequestException("Email " + student.getEmail() + " taken");
+        }
         studentRepository.save(student);
+    }
+
+    public void deleteStudent(Long studentId) {
+        if (!studentRepository.existsById(studentId)) {
+            throw new StudentNotFoundException("Student with id " + studentId + " does not exists");
+        }
+        studentRepository.deleteById(studentId);
     }
 }

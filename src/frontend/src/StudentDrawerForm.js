@@ -1,8 +1,8 @@
 import {Drawer, Input, Col, Select, Form, Row, Button, Spin} from 'antd';
-import {addNewStudents, getAllStudents} from "./client";
+import {addNewStudents} from "./client";
 import {useState} from "react";
 import {LoadingOutlined} from "@ant-design/icons";
-import {successNotification, errorNotification} from "./Notification";
+import {errorNotification, successNotification} from "./Notification";
 
 const {Option} = Select;
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
@@ -17,14 +17,22 @@ function StudentDrawerForm({showDrawer, setShowDrawer, fetchStudents}) {
         addNewStudents(student)
             .then(() => {
                 console.log("Student added");
-                fetchStudents();
                 successNotification(
                     "Student successfully added",
                     `${student.name} was added to the system`
-                )
+                );
+                fetchStudents();
                 onCLose();
             }).catch(err => {
                 console.log(err);
+                err.response.json().then(res => {
+                    console.log(res);
+                    errorNotification(
+                        "There was an error: ",
+                        `${res.message} [${res.status}] [${res.error}]`,
+                        "bottomLeft"
+                    );
+                });
             }).finally(() => {
                 setSubmitting(false);
             })
@@ -35,7 +43,7 @@ function StudentDrawerForm({showDrawer, setShowDrawer, fetchStudents}) {
     };
 
     return <Drawer
-        title="Create new student"
+        title="Create new register"
         width={720}
         onClose={onCLose}
         visible={showDrawer}
@@ -80,7 +88,7 @@ function StudentDrawerForm({showDrawer, setShowDrawer, fetchStudents}) {
                 <Col span={12}>
                     <Form.Item
                         name="gender"
-                        label="gender"
+                        label="Gender"
                         rules={[{required: true, message: 'Please select a gender'}]}
                     >
                         <Select placeholder="Please select a gender">
