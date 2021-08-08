@@ -210,7 +210,7 @@ function App() {
                   { renderStudents() }
               </div>
           </Content>
-          <Footer style={{ textAlign: 'center' }}>Carlos Antonioni © 2018</Footer>
+          <Footer style={{ textAlign: 'center' }}>Made by: Carlos Antonioni © 2021 </Footer>
       </Layout>
   </Layout>
 }
