@@ -106,6 +106,7 @@ public class StudentIT {
         List<Student> students = objectMapper.readValue(
                 contentAsString,
                 new TypeReference<>() {
+
                 }
         );
 
