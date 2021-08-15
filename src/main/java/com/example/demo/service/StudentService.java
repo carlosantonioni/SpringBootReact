@@ -3,7 +3,7 @@ package com.example.demo.service;
 import com.example.demo.exception.BadRequestException;
 import com.example.demo.exception.StudentNotFoundException;
 import com.example.demo.model.Student;
-import com.example.demo.repositorry.StudentRepository;
+import com.example.demo.repository.StudentRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
