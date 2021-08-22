@@ -74,25 +74,25 @@ jobs:
           text: ':white_check_mark: pushed carant06/springboot-react-fullstack:${{steps.build-number.outputs.BUILD_NUMBER}} to docker hub... https://hub.docker.com/repository/docker/carant06/springboot-react-fullstack'
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      - name: Update and commit app version in docker-compose.yaml
-        run: |
-          BUILD_NUMBER=${{steps.build-number.outputs.BUILD_NUMBER}}
-          echo -e "Current elasticbeanstalk/docker-compose.yml\n$(cat elasticbeanstalk/docker-compose.yml)"
-          sed -i -E 's_(carant06/springboot-react-fullstack:)([^"]*)_\1'${BUILD_NUMBER}'_' elasticbeanstalk/docker-compose.yml
-          echo -e "Current elasticbeanstalk/docker-compose.yml\n$(cat elasticbeanstalk/docker-compose.yml)"
-          git config user.name github-actions
-          git config user.email github-actions@github.com
-          git add elasticbeanstalk/docker-compose.yml
-          git commit -m "new app version: ${BUILD_NUMBER}"
-          git push
+      #- name: Update and commit app version in docker-compose.yaml
+      #  run: |
+      #    BUILD_NUMBER=${{steps.build-number.outputs.BUILD_NUMBER}}
+      #    echo -e "Current elasticbeanstalk/docker-compose.yml\n$(cat elasticbeanstalk/docker-compose.yml)"
+      #    sed -i -E 's_(carant06/springboot-react-fullstack:)([^"]*)_\1'${BUILD_NUMBER}'_' elasticbeanstalk/docker-compose.yml
+      #    echo -e "Current elasticbeanstalk/docker-compose.yml\n$(cat elasticbeanstalk/docker-compose.yml)"
+      #    git config user.name github-actions
+      #    git config user.email github-actions@github.com
+      #    git add elasticbeanstalk/docker-compose.yml
+      #    git commit -m "new app version: ${BUILD_NUMBER}"
+      #    git push
 
-      - uses: 8398a7/action-slack@v3
-        with:
-          status: ${{ job.status }}
-          fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
-          text: ':elasticbeanstalk: :aws: Deployment started... :grimacing: :crossed_fingers:'
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      #- uses: 8398a7/action-slack@v3
+      #  with:
+      #    status: ${{ job.status }}
+      #    fields: repo,message,commit,author,action,eventName,ref,workflow,job,took
+      #    text: ':elasticbeanstalk: :aws: Deployment started... :grimacing: :crossed_fingers:'
+      #  env:
+      #    SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
       #- name: Beanstalk Deploy
       #  uses: einaregilsson/beanstalk-deploy@ebe3476a4ce991d54336935e75e78dd9d86f9408
       #  with:
