@@ -29,7 +29,7 @@ public class StudentController {
     }
 
     @PutMapping
-    public void editStudent(@Valid @RequestBody Student student) {
+    public void updateStudent(@Valid @RequestBody Student student) {
         studentService.updateStudent(student);
     }
 }
