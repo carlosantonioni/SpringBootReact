@@ -92,7 +92,6 @@ const columns = fetchStudent => [
     },
 ];
 
-
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
 function App() {
