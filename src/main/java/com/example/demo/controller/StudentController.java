@@ -3,9 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.model.Student;
 import com.example.demo.service.StudentService;
 import lombok.AllArgsConstructor;
-import org.hibernate.boot.model.naming.IllegalIdentifierException;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.Valid;
 import java.util.List;
 
@@ -16,7 +14,9 @@ public class StudentController {
     private final StudentService studentService;
 
     @GetMapping
-    public List<Student> getAllStudents() { return studentService.getAllStudents(); }
+    public List<Student> getAllStudents() {
+        return studentService.getAllStudents();
+    }
 
     @PostMapping
     public void addStudent(@Valid @RequestBody Student student) {
@@ -26,5 +26,10 @@ public class StudentController {
     @DeleteMapping(path = "{studentId}")
     public void deleteStudent(@PathVariable("studentId") Long studentId) {
         studentService.deleteStudent(studentId);
+    }
+
+    @PutMapping
+    public void editStudent(@Valid @RequestBody Student student) {
+        studentService.updateStudent(student);
     }
 }
