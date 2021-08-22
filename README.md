@@ -1,6 +1,6 @@
 # SpringBootReact
-Java spring boot Backend,
-React and functional components frontend,
-Packing backend and frontend with maven,
+spring boot,
+React,
+maven,
 Docker and Jib,
 AWS elastic beanstalk.
