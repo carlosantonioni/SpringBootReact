@@ -15,13 +15,21 @@ export const  getAllStudents = () =>
 
 export const  addNewStudents = student =>
     fetch("api/v1/students", {
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            method: 'POST',
-            body: JSON.stringify(student)
-        }
-    );
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify(student)
+    });
+
+export const updateStudent = student =>
+    fetch("api/v1/students", {
+       headers: {
+           'Content-Type' : 'application/json'
+       },
+       method: 'PUT',
+       body: JSON.stringify(student)
+    });
 
 export const deleteStudent = studentId =>
     fetch( `api/v1/students/${studentId}`, {
