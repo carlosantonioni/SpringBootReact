@@ -1,5 +1,5 @@
 import {Drawer, Input, Col, Select, Form, Row, Button, Spin} from 'antd';
-import {addNewStudents} from "./client";
+import {updateStudent} from "./client";
 import {useState} from "react";
 import {LoadingOutlined} from "@ant-design/icons";
 import {errorNotification, successNotification} from "./Notification";
@@ -7,37 +7,43 @@ import {errorNotification, successNotification} from "./Notification";
 const {Option} = Select;
 const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
 
-function StudentDrawerForm({showDrawer, setShowDrawer, fetchStudents}) {
+function StudentDrawerForm({showDrawerEdit, setShowDrawerEdit, fetchStudents, studentEdit}) {
 
-    const onCLose = () => setShowDrawer(false);
+    console.log(studentEdit);
 
+    const onCLose = () => {
+        setShowDrawerEdit(false);
+        setDestroyOnClose(true)
+    };
+    const [destroyOnClose, setDestroyOnClose] = useState(false);
     const [submitting, setSubmitting] = useState(false);
 
     const onFinish = student => {
         setSubmitting(true)
+        console.log("ID STUDENT::::  " + student.id);
         console.log(JSON.stringify(student, null, 2))
-        addNewStudents(student)
+        updateStudent(student)
             .then(() => {
                 console.log("Student added");
                 successNotification(
                     "Student successfully added",
                     `${student.name} was added to the system`
                 );
-                fetchStudents();
                 onCLose();
+                fetchStudents();
             }).catch(err => {
-                console.log(err);
-                err.response.json().then(res => {
-                    console.log(res);
-                    errorNotification(
-                        "There was an error: ",
-                        `${res.message} [${res.status}] [${res.error}]`,
-                        "bottomLeft"
-                    );
-                });
-            }).finally(() => {
-                setSubmitting(false);
-            })
+            console.log(err);
+            err.response.json().then(res => {
+                console.log(res);
+                errorNotification(
+                    "There was an error: ",
+                    `${res.message} [${res.status}] [${res.error}]`,
+                    "bottomLeft"
+                );
+            });
+        }).finally(() => {
+            setSubmitting(false);
+        })
     };
 
     const onFinishFailed = errorInfo => {
@@ -45,10 +51,11 @@ function StudentDrawerForm({showDrawer, setShowDrawer, fetchStudents}) {
     };
 
     return <Drawer
-        title="Create new register"
+        title="Edit register"
         width={720}
         onClose={onCLose}
-        visible={showDrawer}
+        visible={showDrawerEdit}
+        destroyOnClose={destroyOnClose}
         bodyStyle={{paddingBottom: 80}}
         footer={
             <div
@@ -65,20 +72,23 @@ function StudentDrawerForm({showDrawer, setShowDrawer, fetchStudents}) {
         <Form layout="vertical" onFinishFailed={onFinishFailed} onFinish={onFinish} hideRequiredMark>
             <Row gutter={16}>
                 <Col span={12}>
-                    <Form.Item name="name" label="Name" rules={[{required: true, message: 'Enter student name'}]}>
-                        <Input placeholder="Please enter student name"/>
+                    <Form.Item initialValue={studentEdit.id} name="id" label="id" hidden={true}>
+                        <Input />
+                    </Form.Item>
+                    <Form.Item initialValue={studentEdit.name} name="name" label="Name" rules={[{required: true, message: 'Enter student name'}]}>
+                        <Input/>
                     </Form.Item>
                 </Col>
                 <Col span={12}>
-                    <Form.Item name="email" label="Email" rules={[{required: true, message: 'Enter student email'}]}>
-                        <Input placeholder="Please enter student email"/>
+                    <Form.Item initialValue={studentEdit.email} name="email" label="Email" rules={[{required: true, message: 'Enter student email'}]}>
+                        <Input/>
                     </Form.Item>
                 </Col>
             </Row>
             <Row gutter={16}>
                 <Col span={12}>
-                    <Form.Item name="gender" label="Gender" rules={[{required: true, message: 'Select a gender'}]}>
-                        <Select placeholder="Please select a gender">
+                    <Form.Item initialValue={studentEdit.gender} name="gender" label="Gender" rules={[{required: true, message: 'Select a gender'}]}>
+                        <Select>
                             <Option value="MALE">MALE</Option>
                             <Option value="FEMALE">FEMALE</Option>
                             <Option value="OTHER">OTHER</Option>
