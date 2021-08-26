@@ -5,14 +5,12 @@ import {LoadingOutlined} from "@ant-design/icons";
 import {errorNotification, successNotification} from "./Notification";
 
 const {Option} = Select;
-const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+const antIcon = <LoadingOutlined style={{fontSize: 24}} spin/>;
 
 function StudentDrawerForm({showDrawer, setShowDrawer, fetchStudents}) {
 
     const onCLose = () => setShowDrawer(false);
-
     const [submitting, setSubmitting] = useState(false);
-
     const onFinish = student => {
         setSubmitting(true)
         console.log(JSON.stringify(student, null, 2))
@@ -25,23 +23,23 @@ function StudentDrawerForm({showDrawer, setShowDrawer, fetchStudents}) {
                 );
                 fetchStudents();
                 onCLose();
-            }).catch(err => {
-                console.log(err);
-                err.response.json().then(res => {
-                    console.log(res);
-                    errorNotification(
-                        "There was an error: ",
-                        `${res.message} [${res.status}] [${res.error}]`,
-                        "bottomLeft"
-                    );
-                });
-            }).finally(() => {
-                setSubmitting(false);
-            })
+            }).catch(err => { // Handling clients side errors
+            console.log(err);
+            err.response.json().then(res => {
+                console.log(res);
+                errorNotification(
+                    "There was an error: ",
+                    `${res.message} [${res.status}] [${res.error}]`,
+                    "bottomLeft"
+                );
+            }); // end block clients side errors handle
+        }).finally(() => {
+            setSubmitting(false);
+        })
     };
-
     const onFinishFailed = errorInfo => {
-        alert(JSON.stringify(errorInfo, null, 2));
+        alert("Please Entry valid data" + errorInfo);
+        //alert(JSON.stringify(errorInfo, null, 2));
     };
 
     return <Drawer
@@ -65,13 +63,13 @@ function StudentDrawerForm({showDrawer, setShowDrawer, fetchStudents}) {
         <Form layout="vertical" onFinishFailed={onFinishFailed} onFinish={onFinish} hideRequiredMark>
             <Row gutter={16}>
                 <Col span={12}>
-                    <Form.Item name="name" label="Name" rules={[{required: true, message: 'Enter student name'}]}>
-                        <Input placeholder="Please enter student name"/>
+                    <Form.Item name="name" label="Name" rules={[{required: true, message: 'Entry student name'}]}>
+                        <Input placeholder="Please entry student name"/>
                     </Form.Item>
                 </Col>
                 <Col span={12}>
-                    <Form.Item name="email" label="Email" rules={[{required: true, message: 'Enter student email'}]}>
-                        <Input placeholder="Please enter student email"/>
+                    <Form.Item name="email" label="Email" rules={[{required: true, message: 'Entry student email'}]}>
+                        <Input placeholder="Please entry student email"/>
                     </Form.Item>
                 </Col>
             </Row>
@@ -88,13 +86,13 @@ function StudentDrawerForm({showDrawer, setShowDrawer, fetchStudents}) {
             </Row>
             <Row>
                 <Col span={12}>
-                    <Form.Item >
+                    <Form.Item>
                         <Button type="primary" htmlType="submit">Submit</Button>
                     </Form.Item>
                 </Col>
             </Row>
             <Row>
-                {submitting && <Spin indicator={antIcon} />}
+                {submitting && <Spin indicator={antIcon}/>}
             </Row>
         </Form>
     </Drawer>

@@ -112,15 +112,15 @@ function App() {
                 console.log(data);
                 setStudents(data);
                 setFetching(false);
-            }).catch(err => {
-            console.log(err.response)
+            }).catch(err => {   //Handling error clients side block start
+            console.log(err.response);
             err.response.json().then(res => {
                 console.log(res);
                 errorNotification(
                     "There was an error: ",
                     `${res.message} [${res.status}] [${res.error}]`
                 );
-            });
+            }); // Handling error clients side end block
         }).finally(() => setFetching(false));
 
     useEffect(() => {
@@ -220,7 +220,7 @@ function App() {
                     {renderStudents()}
                 </div>
             </Content>
-            <Footer style={{textAlign: 'center'}}>Made by: Carlos © 2021 </Footer>
+            <Footer style={{textAlign: 'center'}}>Made by: Carlos Antonioni © 2021 </Footer>
         </Layout>
     </Layout>
 }
