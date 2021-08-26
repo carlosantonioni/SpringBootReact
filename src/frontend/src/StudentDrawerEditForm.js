@@ -5,7 +5,7 @@ import {LoadingOutlined} from "@ant-design/icons";
 import {errorNotification, successNotification} from "./Notification";
 
 const {Option} = Select;
-const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+const antIcon = <LoadingOutlined style={{fontSize: 24}} spin/>;
 
 function StudentDrawerForm({showDrawerEdit, setShowDrawerEdit, fetchStudents, studentEdit}) {
 
@@ -24,14 +24,14 @@ function StudentDrawerForm({showDrawerEdit, setShowDrawerEdit, fetchStudents, st
         console.log(JSON.stringify(student, null, 2))
         updateStudent(student)
             .then(() => {
-                console.log("Student added");
+                console.log("Student updated");
                 successNotification(
-                    "Student successfully added",
-                    `${student.name} was added to the system`
+                    "Student successfully updated",
+                    `${student.name} was edited into the system`
                 );
                 onCLose();
                 fetchStudents();
-            }).catch(err => {
+            }).catch(err => { // Handling clients side errors
             console.log(err);
             err.response.json().then(res => {
                 console.log(res);
@@ -39,7 +39,7 @@ function StudentDrawerForm({showDrawerEdit, setShowDrawerEdit, fetchStudents, st
                     "There was an error: ",
                     `${res.message} [${res.status}] [${res.error}]`,
                     "bottomLeft"
-                );
+                );// Handling clients side errors
             });
         }).finally(() => {
             setSubmitting(false);
@@ -73,21 +73,24 @@ function StudentDrawerForm({showDrawerEdit, setShowDrawerEdit, fetchStudents, st
             <Row gutter={16}>
                 <Col span={12}>
                     <Form.Item initialValue={studentEdit.id} name="id" label="id" hidden={true}>
-                        <Input />
+                        <Input/>
                     </Form.Item>
-                    <Form.Item initialValue={studentEdit.name} name="name" label="Name" rules={[{required: true, message: 'Enter student name'}]}>
+                    <Form.Item initialValue={studentEdit.name} name="name" label="Name"
+                               rules={[{required: true, message: 'Enter student name'}]}>
                         <Input/>
                     </Form.Item>
                 </Col>
                 <Col span={12}>
-                    <Form.Item initialValue={studentEdit.email} name="email" label="Email" rules={[{required: true, message: 'Enter student email'}]}>
+                    <Form.Item initialValue={studentEdit.email} name="email" label="Email"
+                               rules={[{required: true, message: 'Enter student email'}]}>
                         <Input/>
                     </Form.Item>
                 </Col>
             </Row>
             <Row gutter={16}>
                 <Col span={12}>
-                    <Form.Item initialValue={studentEdit.gender} name="gender" label="Gender" rules={[{required: true, message: 'Select a gender'}]}>
+                    <Form.Item initialValue={studentEdit.gender} name="gender" label="Gender"
+                               rules={[{required: true, message: 'Select a gender'}]}>
                         <Select>
                             <Option value="MALE">MALE</Option>
                             <Option value="FEMALE">FEMALE</Option>
@@ -98,13 +101,13 @@ function StudentDrawerForm({showDrawerEdit, setShowDrawerEdit, fetchStudents, st
             </Row>
             <Row>
                 <Col span={12}>
-                    <Form.Item >
+                    <Form.Item>
                         <Button type="primary" htmlType="submit">Submit</Button>
                     </Form.Item>
                 </Col>
             </Row>
             <Row>
-                {submitting && <Spin indicator={antIcon} />}
+                {submitting && <Spin indicator={antIcon}/>}
             </Row>
         </Form>
     </Drawer>

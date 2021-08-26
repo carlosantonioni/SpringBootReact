@@ -5,14 +5,12 @@ import {LoadingOutlined} from "@ant-design/icons";
 import {errorNotification, successNotification} from "./Notification";
 
 const {Option} = Select;
-const antIcon = <LoadingOutlined style={{ fontSize: 24 }} spin />;
+const antIcon = <LoadingOutlined style={{fontSize: 24}} spin/>;
 
 function StudentDrawerForm({showDrawer, setShowDrawer, fetchStudents}) {
 
     const onCLose = () => setShowDrawer(false);
-
     const [submitting, setSubmitting] = useState(false);
-
     const onFinish = student => {
         setSubmitting(true)
         console.log(JSON.stringify(student, null, 2))
@@ -25,21 +23,20 @@ function StudentDrawerForm({showDrawer, setShowDrawer, fetchStudents}) {
                 );
                 fetchStudents();
                 onCLose();
-            }).catch(err => {
-                console.log(err);
-                err.response.json().then(res => {
-                    console.log(res);
-                    errorNotification(
-                        "There was an error: ",
-                        `${res.message} [${res.status}] [${res.error}]`,
-                        "bottomLeft"
-                    );
-                });
-            }).finally(() => {
-                setSubmitting(false);
-            })
+            }).catch(err => { // Handling clients side errors
+            console.log(err);
+            err.response.json().then(res => {
+                console.log(res);
+                errorNotification(
+                    "There was an error: ",
+                    `${res.message} [${res.status}] [${res.error}]`,
+                    "bottomLeft"
+                );
+            }); // end block clients side errors handle
+        }).finally(() => {
+            setSubmitting(false);
+        })
     };
-
     const onFinishFailed = errorInfo => {
         alert(JSON.stringify(errorInfo, null, 2));
     };
@@ -88,13 +85,13 @@ function StudentDrawerForm({showDrawer, setShowDrawer, fetchStudents}) {
             </Row>
             <Row>
                 <Col span={12}>
-                    <Form.Item >
+                    <Form.Item>
                         <Button type="primary" htmlType="submit">Submit</Button>
                     </Form.Item>
                 </Col>
             </Row>
             <Row>
-                {submitting && <Spin indicator={antIcon} />}
+                {submitting && <Spin indicator={antIcon}/>}
             </Row>
         </Form>
     </Drawer>
