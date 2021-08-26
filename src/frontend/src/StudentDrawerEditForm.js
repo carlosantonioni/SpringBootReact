@@ -47,7 +47,8 @@ function StudentDrawerForm({showDrawerEdit, setShowDrawerEdit, fetchStudents, st
     };
 
     const onFinishFailed = errorInfo => {
-        alert(JSON.stringify(errorInfo, null, 2));
+        alert("Please Entry valid data" + errorInfo);
+        // alert(JSON.stringify(errorInfo, null, 2));
     };
 
     return <Drawer
@@ -76,13 +77,13 @@ function StudentDrawerForm({showDrawerEdit, setShowDrawerEdit, fetchStudents, st
                         <Input/>
                     </Form.Item>
                     <Form.Item initialValue={studentEdit.name} name="name" label="Name"
-                               rules={[{required: true, message: 'Enter student name'}]}>
+                               rules={[{required: true, message: 'Entry student name'}]}>
                         <Input/>
                     </Form.Item>
                 </Col>
                 <Col span={12}>
                     <Form.Item initialValue={studentEdit.email} name="email" label="Email"
-                               rules={[{required: true, message: 'Enter student email'}]}>
+                               rules={[{required: true, message: 'Entry student email'}]}>
                         <Input/>
                     </Form.Item>
                 </Col>
